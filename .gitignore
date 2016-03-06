@@ -1,1 +1,4 @@
 user.conf
+
+__pycache__/*
+.idea/*
