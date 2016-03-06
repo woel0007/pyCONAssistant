@@ -1,4 +1,4 @@
 user.conf
 
-__pycache__/*
+pyCONAssistant/__pycache__/*
 .idea/*

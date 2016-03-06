@@ -3,7 +3,7 @@ import json
 from pyCONAssistant import globals
 from pyCONAssistant import credManager
 
-batchList = []
+
 def getRawContributionData():
 
     startIndex = 1
@@ -30,17 +30,18 @@ def displayGFContributionsByMonth():
     monthBatchDict = {}
 
     for cont in batches:
-        if(cont['fund_name'] in globals.GFList):
+        if cont['fund_name'] in globals.GFList:
             month = cont['date_given'][5:7]
-            if(month in monthBatchDict):
-                monthBatchDict[month] = monthBatchDict[month] + float(cont['amount'][1:])
+            if month in monthBatchDict:
+                monthBatchDict[month] += float(cont['amount'][1:])
             else:
                 monthBatchDict[month] = float(cont['amount'][1:])
 
     for mon in monthBatchDict:
         monthBatchDict[mon] = int(round(monthBatchDict[mon]))
 
-    return monthBatchDict
+    for mon in sorted(monthBatchDict):
+        print(mon + '\t' + str(monthBatchDict[mon]))
 
 
 def displayGFContributionsByBatch():
@@ -51,18 +52,10 @@ def displayGFContributionsByBatch():
     for cont in batches:
         if(cont['fund_name'] not in globals.FundsNotRecordedAtBank):
             if(cont['date_given'] in batchDict):
-                batchDict[cont['date_given']] = batchDict[cont['date_given']] + float(cont['amount'][1:])
+                batchDict[cont['date_given']] += float(cont['amount'][1:])
             else:
                 batchDict[cont['date_given']] = float(cont['amount'][1:])
 
-    return batchDict
-
-
-# monthDict = displayGFContributionsByMonth()
-# for mon in sorted(monthDict):
-#     print(mon, monthDict[mon])
-
-batchDict = displayGFContributionsByBatch()
-for batch in sorted(batchDict):
-    print(batch, batchDict[batch])
+    for batch in sorted(batchDict):
+        print(batch + '\t' + str(batchDict[batch]))
 

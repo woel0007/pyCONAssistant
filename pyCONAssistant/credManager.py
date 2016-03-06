@@ -1,6 +1,7 @@
 import re
 import requests
 import json
+import sys
 from pyCONAssistant import globals
 
 def getCredentials(credfile):
