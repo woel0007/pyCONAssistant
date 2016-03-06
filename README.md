@@ -18,6 +18,9 @@ pass=password
 
 
 
-# Available Functions
+## Available Functions
 
-**
+### batchManager
+The batchManager library contains functions that will display aggregated batch contributions.  
+
+** 
