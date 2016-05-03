@@ -21,6 +21,11 @@ pass=password
 ### batchManager
 The batchManager library contains functions that will display aggregated batch contributions.  
 
+```
+>>> from pyCONAssistant.batchManager import *
+>>> displayGFContributionsByBatch()
+```
+
 **displayGFContributionsByMonth()**  
 This function will aggregate contribution batches by month number.  Only funds included in globals.GFList[] will be included in this total.  
 
