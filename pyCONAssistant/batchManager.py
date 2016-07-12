@@ -1,10 +1,10 @@
 import requests
 import json
-from pyCONAssistant import globals
-from pyCONAssistant import credManager
+from globals import batchRangeStartDate, batchRangeEndDate, FundsNotRecordedAtBank, credFile, iconAPIURL, GFList
+from credManager import getCredentials, requestSessionID
+import sys
 
-
-def getRawContributionData():
+def getRawContributionData(sessID):
 
     startIndex = 1
     limit = 100
@@ -13,8 +13,8 @@ def getRawContributionData():
 
     while(startIndex < totalRecords):
         headers = headers = {'content-type': 'application/json'}
-        jsonString = '{"Auth": { "Session" : "' + credManager.requestSessionID() + '"},"Request": {"Module": "contributions", "Section": "posted", "Filters": {"begin_date": "' + globals.batchRangeStartDate + '", "end_date": "' + globals.batchRangeEndDate + '", "startAt": "' + str(startIndex) + '", "limit": "' + str(limit) + '" }}}'
-        r = requests.post(globals.iconAPIURL, jsonString, headers=headers)
+        jsonString = '{"Auth": { "Session" : "' + sessID + '"},"Request": {"Module": "contributions", "Section": "posted", "Filters": {"begin_date": "' + batchRangeStartDate + '", "end_date": "' + batchRangeEndDate + '", "startAt": "' + str(startIndex) + '", "limit": "' + str(limit) + '" }}}'
+        r = requests.post(iconAPIURL, jsonString, headers=headers)
         data = json.loads(r.text)
         partBatchList = partBatchList + data['posted']
 
@@ -24,13 +24,13 @@ def getRawContributionData():
     return partBatchList
 
 
-def displayGFContributionsByMonth():
+def displayGFContributionsByMonth(sessID):
 
-    batches = getRawContributionData()
+    batches = getRawContributionData(sessID)
     monthBatchDict = {}
 
     for cont in batches:
-        if cont['fund_name'] in globals.GFList:
+        if cont['fund_name'] in GFList:
             month = cont['date_given'][5:7]
             if month in monthBatchDict:
                 monthBatchDict[month] += float(cont['amount'][1:])
@@ -44,13 +44,13 @@ def displayGFContributionsByMonth():
         print(mon + '\t' + str(monthBatchDict[mon]))
 
 
-def displayGFContributionsByBatch():
+def displayGFContributionsByBatch(sessID):
 
-    batches = getRawContributionData()
+    batches = getRawContributionData(sessID)
     batchDict = {}
 
     for cont in batches:
-        if(cont['fund_name'] not in globals.FundsNotRecordedAtBank):
+        if(cont['fund_name'] not in FundsNotRecordedAtBank):
             if(cont['date_given'] in batchDict):
                 batchDict[cont['date_given']] += float(cont['amount'][1:])
             else:
@@ -58,4 +58,21 @@ def displayGFContributionsByBatch():
 
     for batch in sorted(batchDict):
         print(batch + '\t' + str(batchDict[batch]))
+
+
+
+if __name__ == "__main__":
+
+    # Login
+    if sys.argv.__len__() > 1:
+        credFile = sys.argv[1]
+
+    authTokenList = getCredentials(credFile)
+    sessID = requestSessionID(authTokenList)
+
+    # Execute function to output results
+    displayGFContributionsByBatch(sessID)
+
+
+    displayGFContributionsByBatch()
 

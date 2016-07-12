@@ -1,4 +1,9 @@
+# Globally-ignored Python files.
+pyCONAssistant/*.pyc
+pyCONAssistant/__pycache__/*
+
 user.conf
 
-pyCONAssistant/__pycache__/*
+# Ignore PyCharm residue.
 .idea/*
+

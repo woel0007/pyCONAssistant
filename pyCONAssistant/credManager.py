@@ -2,7 +2,7 @@ import re
 import requests
 import json
 import sys
-from pyCONAssistant import globals
+from globals import *
 
 def getCredentials(credfile):
 
@@ -23,13 +23,16 @@ def getCredentials(credfile):
         return ['unknown', 'unknown', 'unknown']
 
 
-def requestSessionID():
+def requestSessionID(auth_token_list):
 
-    authTokenList = getCredentials('C:\\Users\\opjxw0\\Documents\\sourceCode\\pyCONAssistant\\user.conf')
     headers = headers = {'content-type': 'application/json'}
-    jsonAuthString = '{"Auth": {"Phone":"' + authTokenList[0] + '","Username":"' + authTokenList[1] + '","Password":"' + authTokenList[2] + '"},"Request": {"Module":"GL","Section":"Accounts"}}'
+    jsonAuthString = '{"Auth": {"Phone":"' + auth_token_list[0] + '","Username":"' + auth_token_list[1] + '","Password":"' + auth_token_list[2] + '"},"Request": {"Module":"GL","Section":"Accounts"}}'
 
-    r = requests.post(globals.iconAPIURL, jsonAuthString, headers=headers)
-    data = json.loads(r.text)
+
+    r = requests.post(iconAPIURL, jsonAuthString, headers=headers)
+    if r.status_code == 200:
+        data = json.loads(r.text)
+    else:
+        pass
     return data["session"]
 
