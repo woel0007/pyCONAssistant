@@ -1,9 +1,13 @@
-iconAPIURL = 'https://secure3.iconcmo.com/api/'
-credFile = 'C:\\Users\\opjxw0\\Documents\\sourceCode\\pyCONAssistant\\user.conf'
+"""
+Fill in module details.
 
+"""
+ICON_API_URL = 'https://secure3.iconcmo.com/api/'
 
-batchRangeStartDate = 'January 1, 2016'
-batchRangeEndDate = 'December 31, 2016'
+DEFAULT_CRED_FILE = 'user.conf'
 
-GFList = ['GENERAL', 'PLATE']
-FundsNotRecordedAtBank = ['NON MONEY DONATION']
+BATCH_RANGE_START_DATE = 'January 1, 2016'
+BATCH_RANGE_END_DATE = 'December 31, 2016'
+
+GENERAL_FUND_LIST = ['GENERAL', 'PLATE']
+FUNDS_NOT_RECORDED_AT_BANK = ['NON MONEY DONATION']
