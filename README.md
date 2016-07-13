@@ -18,7 +18,7 @@ pass=password
 
 ## Libraries
 
-### batchManager
+### batch_manager
 The batchManager library contains functions that will display aggregated batch contributions.  
 
 ```
@@ -26,8 +26,8 @@ The batchManager library contains functions that will display aggregated batch c
 >>> displayGFContributionsByBatch()
 ```
 
-**displayGFContributionsByMonth()**  
+**display_gf_conts_by_month()**  
 This function will aggregate contribution batches by month number.  Only funds included in globals.GFList[] will be included in this total.  
 
-**displayGFContributionsByBatch()**  
+**display_gf_conts_by_batch()**  
 This function will aggregate contribution batches by batch entered date.  All funds except those listed in globals.FundsNotRecordedAtBank will be included in the total.
